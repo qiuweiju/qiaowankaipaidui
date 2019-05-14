@@ -1,0 +1,50 @@
+1.hdfs shell练习
+在Linux系统中创建文件hello.txt,输入任意内容
+	hello.txt文件存放目录：  ~/students/班级号/学号
+将创建的hello.txt文件上传到HDFS目录：  /students/班级号/学号
+使用WEB访问HDFS，查看自己上传的文件：  192.168.3.199:50070
+查看HDFS中自己上传的文件内容
+尝试将HDFS文件下载到Linux目录： ~/students/班级号/学号/downloads
+查看downloads目录中的文件
+
+2.HDFS API练习
+安装配置hadoop-eclipse-plugin插件，新建工程HDFSDemo
+根据官方API及参考代码，完成如下内容：
+在HDFS目录创建文件file1并写入任意内容：  /students/班级号/学号/file1
+读取file1的内容并打印出来
+使用API方式查看file1的文件属性，比如修改日期，块大小等
+将file1下载到LINUX目录： ~/students/班级号/学号/downloads
+删除HDFS上的文件 file1
+
+
+API文档参考：http://hadoop.apache.org/docs/stable/api/index.html
+
+参考代码：
+import org.apache.hadoop.conf.*;
+import org.apache.hadoop.fs.*;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URI;
+
+public class DemoHDFS {
+	public static void main(String[] args) throws Exception {
+		Configuration conf = new Configuration();
+		
+		System.setProperty("HADOOP_USER_NAME", "hadoop");
+
+		FileSystem fs = FileSystem.get(conf);
+		
+		// define new file
+		Path newfile = new Path("/students/1601/00/file1");
+		FSDataOutputStream fsout = fs.create(newfile, true);
+		fsout.writeBytes("hello hadoop\nbyehadoop");
+		// 关闭流
+        fsout.close();
+		fs.close();
+	}
+}
+
+
+
+
